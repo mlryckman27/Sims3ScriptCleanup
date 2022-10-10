@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Sims3ScriptCleanup:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Sims3ScriptCleanup_jar</output-path>
+    <root id="archive" name="Sims3ScriptCleanup.jar">
+      <element id="module-output" name="Sims3ScriptCleanup" />
+    </root>
+  </artifact>
+</component>
