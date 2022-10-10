@@ -20,7 +20,8 @@ public class GUI extends Frame implements WindowListener {
         textField1.setEditable(true);
 
         Button cleanButton = new Button();
-        cleanButton.setBounds(200, 200, 50, 25);
+        cleanButton.setBounds(200, 50, 50, 25);
+        cleanButton.setLabel("Clean");
 
         add(cleanButton); add(textField1);
         setLayout(null);
