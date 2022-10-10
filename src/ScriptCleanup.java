@@ -13,3 +13,9 @@ public class ScriptCleanup {
 
     }
 }
+
+
+/*
+TODO:
+ - use ConfigReader class in GUI class to create a ConfigReader object as an attribute in GUI class.
+ */
