@@ -1,26 +1,28 @@
 package gui;
 
-import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-public class GUI extends Frame {
 
+public class GUI extends Frame implements WindowListener {
+
+    // Attributes
+
+    // Constructor method
     public GUI() {
-        // panel = new JPanel();
-        // panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-        //panel.setLayout(new GridLayout(0, 1));
+
+        addWindowListener(this);
 
         TextField textField1 = new TextField();
         textField1.setBounds(50, 50, 150, 25);
         textField1.setEditable(true);
 
-        //private JPanel panel = null;
         Button cleanButton = new Button();
         cleanButton.setBounds(200, 200, 50, 25);
 
-        //add(panel);
         add(cleanButton); add(textField1);
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         setTitle("test0");
 
@@ -28,5 +30,43 @@ public class GUI extends Frame {
         textField1.setVisible(true);
         cleanButton.setVisible(true);
         setVisible(true);
+    }
+
+    // Methods
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        System.out.println("Window opened");
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        System.out.println("Window closing");
+        dispose();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        System.out.println("Window closed");
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        System.out.println("Window iconified");
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        System.out.println("Window de-iconified");
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        System.out.println("Window activated");
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        System.out.println("Window deactivated");
     }
 }
