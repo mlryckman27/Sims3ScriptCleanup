@@ -4,11 +4,15 @@ package gui;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import config.ConfigReader;
 
 
 public class GUI extends Frame implements WindowListener {
 
+
     // Attributes
+    ConfigReader config;
+
 
     // Constructor method
     public GUI() {
@@ -32,6 +36,18 @@ public class GUI extends Frame implements WindowListener {
         cleanButton.setVisible(true);
         setVisible(true);
     }
+
+
+    // Getters/Setters
+
+    public ConfigReader getConfig() {
+        return config;
+    }
+
+    public void setConfig(ConfigReader config) {
+        this.config = config;
+    }
+
 
     // Methods
 
