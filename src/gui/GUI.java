@@ -4,6 +4,9 @@ package gui;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import config.ConfigReader;
 
 
@@ -15,7 +18,7 @@ public class GUI extends Frame implements WindowListener {
 
 
     // Constructor method
-    public GUI() {
+    public GUI() throws IOException {
 
         addWindowListener(this);
 
@@ -35,6 +38,14 @@ public class GUI extends Frame implements WindowListener {
         textField1.setVisible(true);
         cleanButton.setVisible(true);
         setVisible(true);
+
+        config = new ConfigReader();
+        textField1.setText(getConfig().readConfigTest());
+
+        //config = new ConfigReader();
+        //textField1.setText(getConfig().readConfig());
+        //textField1.setText("text");
+
     }
 
 

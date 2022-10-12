@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class ConfigReader {
@@ -40,21 +44,33 @@ public class ConfigReader {
         boolean exists;
         if (!(exists = configFile.createNewFile()))
             System.out.println("Config file found.");
-        else
+        else {
             System.out.println("Config file not found.  Created config.ini.");
+            Files.write(Paths.get("config.ini"), Collections.singleton("Sims3Path="), StandardCharsets.UTF_8);
+        }
     }
 
-    private void updateConfig() throws IOException {
-        FileWriter configFileWriter = new FileWriter(getConfigFile());
-    }
+//    private void updateConfig() throws IOException {
+//        FileWriter configFileWriter = new FileWriter(getConfigFile());
+//    }
 
-    private String readConfig() throws FileNotFoundException {
+    public String readConfig() throws FileNotFoundException {
         String path = "";
         Scanner configScan = new Scanner(getConfigFile());
         configScan.delimiter().split("=");
         if (configScan.hasNext()) {
             path = configScan.next();
         }
+        return path;
+    }
+
+
+    // TEST METHODS
+    public String readConfigTest() throws FileNotFoundException {
+        String path = "";
+        Scanner configScan = new Scanner(getConfigFile());
+        configScan.delimiter().split("=");
+        path = configScan.next();
         return path;
     }
 }
