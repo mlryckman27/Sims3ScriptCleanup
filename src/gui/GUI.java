@@ -57,20 +57,18 @@ public class GUI extends Frame implements WindowListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: implement clean action to remove all ErrorScript XML files and condense into one file
+                File directory = new File(config.getSims3DocsLocation());
+                File[] fileList = directory.listFiles();
 
-                try {
-                    Stream<Path> files = Files.list(Paths.get(config.getSims3DocsLocation()));
-//                    List<Path> fileList = new ArrayList<>();
-//                    for (int i = 0; i < fileList.size(); i++) {
-//                        System.out.println(fileList.get(i));
-//                    }
-                    System.out.println(files.toList().get(0));
-                    System.out.println(files.toList().get(1));
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                for (File file : fileList) {
+                    if (file.isFile()) {
+                        System.out.println(file.getName());
+                        if (file.getName().contains("delete")) {
+                            System.out.println("Delete File:" + file.getName());
+                            file.delete();
+                        }
+                    }
                 }
-
-
             }
         });
 
