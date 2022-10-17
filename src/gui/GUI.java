@@ -2,10 +2,18 @@ package gui;
 
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.FileWriter;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 import config.ConfigReader;
 
@@ -29,22 +37,53 @@ public class GUI extends Frame implements WindowListener {
         Button cleanButton = new Button();
         cleanButton.setBounds(200, 50, 50, 25);
         cleanButton.setLabel("Clean");
+        Button updateButton = new Button();
+        updateButton.setBounds(252, 50, 50, 25);
+        updateButton.setLabel("Update");
 
-        add(cleanButton); add(textField1);
+        add(cleanButton); add(updateButton); add(textField1);
         setLayout(null);
-        setTitle("test0");
+        setTitle("NRAAS ErrorTrap ErrorScript Cleanup Tool");
 
         setSize(600, 480);
-        textField1.setVisible(true);
-        cleanButton.setVisible(true);
+        textField1.setVisible(true); cleanButton.setVisible(true); updateButton.setVisible(true);
         setVisible(true);
 
         config = new ConfigReader();
-        textField1.setText(getConfig().readConfigTest());
+        textField1.setText(getConfig().getSims3DocsLocation());
 
-        //config = new ConfigReader();
-        //textField1.setText(getConfig().readConfig());
-        //textField1.setText("text");
+
+        cleanButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: implement clean action to remove all ErrorScript XML files and condense into one file
+
+                try {
+                    Stream<Path> files = Files.list(Paths.get(config.getSims3DocsLocation()));
+//                    List<Path> fileList = new ArrayList<>();
+//                    for (int i = 0; i < fileList.size(); i++) {
+//                        System.out.println(fileList.get(i));
+//                    }
+                    System.out.println(files.toList().get(0));
+                    System.out.println(files.toList().get(1));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+            }
+        });
+
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    config.saveConfig(textField1.getText());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
 
     }
 
@@ -60,7 +99,7 @@ public class GUI extends Frame implements WindowListener {
     }
 
 
-    // Methods
+    // WindowListener methods
 
     @Override
     public void windowOpened(WindowEvent e) {

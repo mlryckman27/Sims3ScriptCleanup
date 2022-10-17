@@ -15,7 +15,7 @@ public class ConfigReader {
     private File configFile;
 
     public ConfigReader() throws IOException {
-        checkConfigExists();
+        init();
 
     }
 
@@ -39,38 +39,48 @@ public class ConfigReader {
     Check if config.ini exists and create it if it does not.
     config.ini always created in the same directory as .jar executable.
      */
-    private void checkConfigExists() throws IOException {
+    private void init() throws IOException {
         configFile = new File("config.ini");
         boolean exists;
         if (!(exists = configFile.createNewFile()))
             System.out.println("Config file found.");
         else {
             System.out.println("Config file not found.  Created config.ini.");
-            Files.write(Paths.get("config.ini"), Collections.singleton("Sims3Path="), StandardCharsets.UTF_8);
+            Files.write(Paths.get("config.ini"), Collections.singleton(""), StandardCharsets.UTF_8);
         }
+
+        readConfig();
     }
 
-//    private void updateConfig() throws IOException {
-//        FileWriter configFileWriter = new FileWriter(getConfigFile());
-//    }
-
-    public String readConfig() throws FileNotFoundException {
+    private String readConfig() throws FileNotFoundException {
         String path = "";
         Scanner configScan = new Scanner(getConfigFile());
         configScan.delimiter().split("=");
+
         if (configScan.hasNext()) {
-            path = configScan.next();
+            String line = configScan.next();
+            int index = line.indexOf("=") + 1;
+            path = line.substring(index);
         }
+        else {
+            path = "";
+        }
+
+        setSims3DocsLocation(path);
+
         return path;
     }
 
+    public void saveConfig(String path) throws IOException {
+        Files.write(Paths.get("config.ini"), Collections.singleton("Sims3Path=" + path), StandardCharsets.UTF_8);
+    }
 
     // TEST METHODS
-    public String readConfigTest() throws FileNotFoundException {
-        String path = "";
-        Scanner configScan = new Scanner(getConfigFile());
-        configScan.delimiter().split("=");
-        path = configScan.next();
-        return path;
-    }
+//    public String readConfigTest() throws FileNotFoundException {
+//        String path = "";
+//        Scanner configScan = new Scanner(getConfigFile());
+//        configScan.delimiter().split("=");
+//        path = configScan.next();
+//        return path;
+//    }
 }
