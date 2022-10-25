@@ -2,7 +2,6 @@ package config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -55,18 +54,18 @@ public class ConfigReader {
     private String readConfig() throws FileNotFoundException {
         String path = "";
         Scanner configScan = new Scanner(getConfigFile());
-        configScan.delimiter().split("=");
 
-        if (configScan.hasNext()) {
-            String line = configScan.next();
+        String line = "";
+        if (configScan.hasNextLine()) {
+            line = configScan.nextLine();
             int index = line.indexOf("=") + 1;
             path = line.substring(index);
-        }
-        else {
-            path = "";
+            System.out.println(path);
         }
 
         setSims3DocsLocation(path);
+        System.out.println(getSims3DocsLocation());
+        System.out.print(Sims3DocsLocation);
 
         return path;
     }
@@ -74,13 +73,4 @@ public class ConfigReader {
     public void saveConfig(String path) throws IOException {
         Files.write(Paths.get("config.ini"), Collections.singleton("Sims3Path=" + path), StandardCharsets.UTF_8);
     }
-
-    // TEST METHODS
-//    public String readConfigTest() throws FileNotFoundException {
-//        String path = "";
-//        Scanner configScan = new Scanner(getConfigFile());
-//        configScan.delimiter().split("=");
-//        path = configScan.next();
-//        return path;
-//    }
 }

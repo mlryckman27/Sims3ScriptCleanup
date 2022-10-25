@@ -7,15 +7,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
+import java.util.Collections;
+import java.util.Scanner;
 
 import config.ConfigReader;
+
+import static java.nio.file.StandardOpenOption.APPEND;
 
 
 public class GUI extends Frame implements WindowListener {
@@ -24,34 +27,44 @@ public class GUI extends Frame implements WindowListener {
     // Attributes
     ConfigReader config;
 
+    TextArea viewPort;
+
 
     // Constructor method
     public GUI() throws IOException {
 
+        init();
+
         addWindowListener(this);
 
-        TextField textField1 = new TextField();
-        textField1.setBounds(50, 50, 150, 25);
-        textField1.setEditable(true);
+        TextField simsPath = new TextField();
+        simsPath.setBounds(50, 50, 150, 25);
+        simsPath.setEditable(true);
+
+        viewPort = new TextArea();
+        viewPort.setBounds(50, 100, 500, 300);
+        viewPort.setEditable(false);
 
         Button cleanButton = new Button();
-        cleanButton.setBounds(200, 50, 50, 25);
-        cleanButton.setLabel("Clean");
+        cleanButton.setBounds(200, 50, 75, 25);
+        cleanButton.setLabel("Clean Logs");
         Button updateButton = new Button();
-        updateButton.setBounds(252, 50, 50, 25);
-        updateButton.setLabel("Update");
+        updateButton.setBounds(277, 50, 75, 25);
+        updateButton.setLabel("Set Path");
 
-        add(cleanButton); add(updateButton); add(textField1);
+        add(cleanButton); add(updateButton); add(simsPath); add(viewPort);
         setLayout(null);
         setTitle("NRAAS ErrorTrap ErrorScript Cleanup Tool");
 
         setSize(600, 480);
-        textField1.setVisible(true); cleanButton.setVisible(true); updateButton.setVisible(true);
+        simsPath.setVisible(true); viewPort.setVisible(true);
+        cleanButton.setVisible(true); updateButton.setVisible(true);
         setVisible(true);
 
         config = new ConfigReader();
-        textField1.setText(getConfig().getSims3DocsLocation());
+        simsPath.setText(getConfig().getSims3DocsLocation());
 
+        viewAggregateXML(new File("aggregateXML.xml"));
 
         cleanButton.addActionListener(new ActionListener() {
             @Override
@@ -64,6 +77,11 @@ public class GUI extends Frame implements WindowListener {
                     if (file.isFile()) {
                         System.out.println(file.getName());
                         if (file.getName().contains("delete")) {
+                            try {
+                                updateAggregateXML(file);
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
                             System.out.println("Delete File:" + file.getName());
                             file.delete();
                         }
@@ -76,7 +94,7 @@ public class GUI extends Frame implements WindowListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    config.saveConfig(textField1.getText());
+                    config.saveConfig(simsPath.getText());
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -85,6 +103,50 @@ public class GUI extends Frame implements WindowListener {
 
     }
 
+
+    // Helper methods
+
+    private void init() throws IOException {
+        File aggregateXML = new File("aggregateXML.xml");
+        boolean exists = false;
+        if (!(exists = aggregateXML.createNewFile())) {
+            System.out.println("Aggregate XML log found.");
+        }
+        else {
+            System.out.println("Aggregate XML log no found... creating log.");
+            aggregateXML.createNewFile();
+            Files.writeString(Paths.get(aggregateXML.toURI()), "", StandardCharsets.UTF_8, APPEND);
+        }
+    }
+
+    private void updateAggregateXML(File file) throws IOException {
+        File aggregateXML = new File("aggregateXML.xml");
+        boolean exists;
+        Path path = Paths.get("aggregateXML.xml");
+        if (exists = aggregateXML.exists()) {
+            aggregateXML.canWrite();
+        }
+        else {
+            Files.write(path, Collections.singleton(""), StandardCharsets.UTF_8);
+        }
+
+        Scanner scan = new Scanner(file);
+        String line;
+
+        while (scan.hasNextLine()) {
+            line = scan.nextLine();
+            Files.writeString(path, line + '\n', StandardCharsets.UTF_8, APPEND);
+        }
+        scan.close();
+    }
+
+    private void viewAggregateXML(File file) throws FileNotFoundException {
+        Scanner scan = new Scanner(file);
+        while (scan.hasNextLine()) {
+            viewPort.append(scan.nextLine());
+            viewPort.append("\n");
+        }
+    }
 
     // Getters/Setters
 
