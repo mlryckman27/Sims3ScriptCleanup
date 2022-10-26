@@ -76,7 +76,7 @@ public class GUI extends Frame implements WindowListener {
                 for (File file : fileList) {
                     if (file.isFile()) {
                         System.out.println(file.getName());
-                        if (file.getName().contains("delete")) {
+                        if (file.getName().contains("ScriptError") && file.getName().contains(".xml")) {
                             try {
                                 updateAggregateXML(file);
                             } catch (IOException ex) {

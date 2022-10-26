@@ -60,12 +60,12 @@ public class ConfigReader {
             line = configScan.nextLine();
             int index = line.indexOf("=") + 1;
             path = line.substring(index);
-            System.out.println(path);
+            //System.out.println(path);
         }
 
         setSims3DocsLocation(path);
-        System.out.println(getSims3DocsLocation());
-        System.out.print(Sims3DocsLocation);
+        //System.out.println(getSims3DocsLocation());
+        //System.out.print(Sims3DocsLocation);
 
         return path;
     }
