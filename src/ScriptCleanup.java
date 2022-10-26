@@ -17,6 +17,7 @@ public class ScriptCleanup {
 /*
 TODO:
     - separate aggregateXML into its own class (AggregateXML) to manage parsing and separating aggregateXML log back into individual ScriptError logs.
-    - make the viewPort update the text from aggregateXML.xml
     - comment and label code blocks for future expansion and maintenance.
+    - remove unneeded methods from classes
+    - fix package structure (condense user-made classes into one package or better named packages).
  */
