@@ -69,7 +69,6 @@ public class GUI extends Frame implements WindowListener {
         cleanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: implement clean action to remove all ErrorScript XML files and condense into one file
                 File directory = new File(config.getSims3DocsLocation());
                 File[] fileList = directory.listFiles();
 
