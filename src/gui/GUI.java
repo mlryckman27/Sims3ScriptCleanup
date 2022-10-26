@@ -79,6 +79,8 @@ public class GUI extends Frame implements WindowListener {
                         if (file.getName().contains("ScriptError") && file.getName().contains(".xml")) {
                             try {
                                 updateAggregateXML(file);
+                                //viewPort.setText();
+                                viewAggregateXML(new File("aggregateXML.xml"));
                             } catch (IOException ex) {
                                 throw new RuntimeException(ex);
                             }
@@ -142,10 +144,13 @@ public class GUI extends Frame implements WindowListener {
 
     private void viewAggregateXML(File file) throws FileNotFoundException {
         Scanner scan = new Scanner(file);
+        String viewPortText = "";
         while (scan.hasNextLine()) {
-            viewPort.append(scan.nextLine());
-            viewPort.append("\n");
+            viewPortText = viewPortText + scan.nextLine() + '\n';
+            //viewPort.append(scan.nextLine());
+            //viewPort.append("\n");
         }
+        viewPort.setText(viewPortText);
     }
 
     // Getters/Setters

@@ -16,10 +16,7 @@ public class ScriptCleanup {
 
 /*
 TODO:
- - use ConfigReader class in GUI class to create a ConfigReader object as an attribute in GUI class.
- - finish implementing ConfigReader methods into GUI class.
- - Gui class should read path location from config file and set textbox in GUI accordingly.
- - GUI class should be able to update config file with text from textbox (path to Sims 3 docs).
- - comment applicable methods and attributes in GUI and ConfigReader class
- - comment main class as needed
+    - separate aggregateXML into its own class (AggregateXML) to manage parsing and separating aggregateXML log back into individual ScriptError logs.
+    - make the viewPort update the text from aggregateXML.xml
+    - comment and label code blocks for future expansion and maintenance.
  */
